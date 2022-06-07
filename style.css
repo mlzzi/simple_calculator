@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  background-color: black;
+}
+
+.calculator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.interface {
+  display: flex;
+  background-color: grey;
+  min-width: 20vw;
+  min-height: 50vh;
+}

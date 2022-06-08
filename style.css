@@ -1,6 +1,24 @@
+:root {
+  /*Primary colors*/
+  --primary-color: hsl(220, 15%, 15%);
+  --secondary-color: hsl(272, 21%, 34%);
+  --tertiary-color: hsl(219, 15%, 23%);
+
+  /*Button colors*/
+  --key: hsl(225, 15%, 17%);
+  --top: hsl(171, 100%, 49%);
+  --side: hsl(355, 84%, 67%);
+  --numbers: hsl(0, 0%, 93%);
+}
+
 body {
   margin: 0;
-  background-color: black;
+  background: linear-gradient(
+    to top left,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  font-family: Verdana, sans-serif;
 }
 
 .calculator {
@@ -12,8 +30,144 @@ body {
 }
 
 .interface {
+  box-shadow: 1px 3px 15px -3px var(--primary-color);
   display: flex;
-  background-color: grey;
-  min-width: 20vw;
-  min-height: 50vh;
+  flex-direction: column;
+  background-color: var(--primary-color);
+  width: 18rem;
+  height: 30rem;
+  border-radius: 10px;
+}
+
+.display {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: var(--numbers);
+  border-radius: 10px;
+  height: 35%;
+  width: 100%;
+}
+
+h2,
+p {
+  padding: 0px 10px 0px 10px;
+  margin: 0 0 8px 0;
+}
+
+hr {
+  width: 100%;
+  border-color: var(--primary-color);
+  margin: none;
+}
+
+.keyboard {
+  background-color: var(--tertiary-color);
+  border-radius: 10px;
+  width: 98%;
+  height: 65%;
+  display: grid;
+  padding: 3px;
+  grid-template-columns: [col1-start] 1fr [col2-start] 1fr [col3-start] 1fr [col4-start] 1fr [col4-end];
+  grid-template-rows: [row1-start] 1fr [row2-start] 1fr [row3-start] 1fr [row4-start] 1fr [row5-start] 1fr [row5-end];
+}
+
+.top {
+  display: grid;
+  grid-template-columns: [col1-start] 1fr [col2-start] 1fr [col3-start] 1fr [col3-end];
+  grid-column: col1-start / col4-start;
+  grid-row: row1-start;
+}
+
+.top .btn {
+  color: var(--top);
+}
+
+.side {
+  display: grid;
+  grid-column: col4-start;
+  grid-row: row1-start / row5-end;
+}
+
+.side .btn {
+  color: var(--side);
+}
+
+.numbers {
+  display: grid;
+
+  grid-template-columns: [col1-start] 1fr [col2-start] 1fr [col3-start] 1fr [col3-end];
+  grid-template-rows: [row1-start] 1fr [row2-start] 1fr [row3-start] 1fr [row4-start] 1fr [row4-end];
+  grid-column: col1-start / col4-start;
+  grid-row: row2-start / row5-end;
+}
+
+.numbers .btn {
+  color: var(--numbers);
+}
+
+.btn {
+  cursor: pointer;
+  margin: 3px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--key);
+
+  font-size: 20px;
+}
+
+.seven {
+  grid-column: col1-start / col2-start;
+  grid-row: row1-start / row2-start;
+}
+
+.eigth {
+  grid-column: col2-start / col3-start;
+  grid-row: row1-start / row2-start;
+}
+
+.nine {
+  grid-column: col3-start / col3-end;
+  grid-row: row1-start / row2-start;
+}
+
+.four {
+  grid-column: col1-start / col2-start;
+  grid-row: row2-start / row3-start;
+}
+
+.five {
+  grid-column: col2-start / col3-start;
+  grid-row: row2-start / row3-start;
+}
+
+.six {
+  grid-column: col3-start / col3-end;
+  grid-row: row2-start / row3-start;
+}
+.one {
+  grid-column: col1-start / col2-start;
+  grid-row: row3-start / row4-start;
+}
+
+.two {
+  grid-column: col2-start / col3-start;
+  grid-row: row3-start / row4-start;
+}
+
+.three {
+  grid-column: col3-start / col3-end;
+  grid-row: row3-start / row4-start;
+}
+
+.zero {
+  grid-column: col1-start / col3-start;
+  grid-row: row4-start / row4-end;
+}
+
+.dot {
+  grid-column: col3-start / col3-end;
+  grid-row: row4-start / row4-end;
 }

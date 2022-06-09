@@ -1,24 +1,59 @@
 const ac = document.querySelector('.ac');
-const plusMinus = document.querySelector('.plus-minus');
-const percentage = document.querySelector('.percentage');
-const divide = document.querySelector('.divide');
-const multiply = document.querySelector('.multiply');
-const minus = document.querySelector('.minus');
-const plus = document.querySelector('.plus');
-const equal = document.querySelector('.equal');
-const seven = document.querySelector('.seven');
-const eigth = document.querySelector('.eigth');
-const nine = document.querySelector('.nine');
-const four = document.querySelector('.four');
-const five = document.querySelector('.five');
-const six = document.querySelector('.six');
-const one = document.querySelector('.one');
-const two = document.querySelector('.two');
-const three = document.querySelector('.three');
-const zero = document.querySelector('.zero');
+
 const dot = document.querySelector('.dot');
 
-console.log(ac);
+const numbers = document.querySelector('.numbers');
+const side = document.querySelector('.side');
+
+const compute = document.querySelector('.compute');
+const mathOperation = (document.querySelector('.compute').value = 0);
+
+let firstNumber = '0';
+let operator;
+let secondNumber = '0';
+
 ac.addEventListener('click', function () {
-  console.log('clicked');
+  compute.value = 0;
+  firstNumber = undefined;
+  operator = undefined;
+  secondNumber = undefined;
+  console.log(firstNumber, operator, secondNumber);
+});
+
+numbers.addEventListener('click', function (e) {
+  // console.log(e.target.textContent);
+
+  if (compute.value === '0') {
+    compute.value = e.target.textContent;
+    firstNumber = e.target.textContent;
+  } else if (firstNumber !== '0' && operator === undefined) {
+    compute.value = firstNumber + e.target.textContent;
+    firstNumber = compute.value;
+    console.log(firstNumber);
+  } else if (
+    firstNumber !== '0' &&
+    operator !== undefined &&
+    secondNumber === '0'
+  ) {
+    compute.value = firstNumber + ' ' + operator + ' ' + e.target.textContent;
+    secondNumber = e.target.textContent;
+  } else if (
+    firstNumber !== '0' &&
+    operator !== undefined &&
+    secondNumber !== '0'
+  ) {
+    compute.value =
+      firstNumber + ' ' + operator + ' ' + secondNumber + e.target.textContent;
+    secondNumber = compute.value;
+  }
+});
+
+side.addEventListener('click', function (e) {
+  if (operator === undefined) {
+    compute.value = firstNumber + ' ' + e.target.textContent;
+    operator = e.target.textContent;
+    console.log(operator);
+  } else {
+    console.log('note clickbel');
+  }
 });

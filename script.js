@@ -1,4 +1,5 @@
 const ac = document.querySelector('.ac');
+const displayCalcs = document.querySelector('.display');
 
 const dot = document.querySelector('.dot');
 
@@ -41,13 +42,10 @@ side.addEventListener('click', function (e) {
   if (e.target.textContent !== '=') {
     operation[1] = e.target.textContent;
     compute.value = operation[0] + operation[1];
+    operationsDone = [];
   } else {
-    compute.value =
-      operation[0] +
-      operation[1] +
-      operation[2] +
-      '=' +
-      operator(Number(operation[0]), Number(operation[2]));
+    const current = operator(Number(operation[0]), Number(operation[2]));
+    compute.value = current;
     operationsDone.push(
       operation[0] +
         operation[1] +
@@ -55,10 +53,18 @@ side.addEventListener('click', function (e) {
         '=' +
         operator(Number(operation[0]), Number(operation[2]))
     );
+    operation = [current, undefined, undefined];
   }
 });
 
-console.log(operationsDone);
+side.addEventListener('click', function (e) {
+  if (e.target.textContent === '=') {
+  }
+  for (let i = 0; i < operationsDone.length; i++) {
+    const html = `<p class="calc">${operationsDone[i]}</p>`;
+    displayCalcs.insertAdjacentHTML('afterbegin', html);
+  }
+});
 
 const operator = function (par1, par2) {
   switch (operation[1]) {

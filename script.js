@@ -8,52 +8,67 @@ const side = document.querySelector('.side');
 const compute = document.querySelector('.compute');
 const mathOperation = (document.querySelector('.compute').value = 0);
 
-let firstNumber = '0';
-let operator;
-let secondNumber = '0';
+let operation = [];
+const operationsDone = [];
 
 ac.addEventListener('click', function () {
   compute.value = 0;
-  firstNumber = undefined;
-  operator = undefined;
-  secondNumber = undefined;
-  console.log(firstNumber, operator, secondNumber);
+  operation = [];
 });
 
 numbers.addEventListener('click', function (e) {
-  // console.log(e.target.textContent);
+  if (operation[1] === undefined) {
+    if (compute.value === '0') {
+      operation[0] = e.target.textContent;
 
-  if (compute.value === '0') {
-    compute.value = e.target.textContent;
-    firstNumber = e.target.textContent;
-  } else if (firstNumber !== '0' && operator === undefined) {
-    compute.value = firstNumber + e.target.textContent;
-    firstNumber = compute.value;
-    console.log(firstNumber);
-  } else if (
-    firstNumber !== '0' &&
-    operator !== undefined &&
-    secondNumber === '0'
-  ) {
-    compute.value = firstNumber + ' ' + operator + ' ' + e.target.textContent;
-    secondNumber = e.target.textContent;
-  } else if (
-    firstNumber !== '0' &&
-    operator !== undefined &&
-    secondNumber !== '0'
-  ) {
-    compute.value =
-      firstNumber + ' ' + operator + ' ' + secondNumber + e.target.textContent;
-    secondNumber = compute.value;
+      compute.value = operation[0];
+    } else if (operation[0] !== '0' && operation[1] === undefined) {
+      compute.value = operation[0] + e.target.textContent;
+      operation[0] = compute.value;
+    }
+  } else {
+    if (operation[2] === undefined) {
+      operation[2] = e.target.textContent;
+      compute.value = operation[0] + operation[1] + e.target.textContent;
+    } else {
+      operation[2] = operation[2] + e.target.textContent;
+      compute.value = operation[0] + operation[1] + operation[2];
+    }
   }
 });
 
 side.addEventListener('click', function (e) {
-  if (operator === undefined) {
-    compute.value = firstNumber + ' ' + e.target.textContent;
-    operator = e.target.textContent;
-    console.log(operator);
+  if (e.target.textContent !== '=') {
+    operation[1] = e.target.textContent;
+    compute.value = operation[0] + operation[1];
   } else {
-    console.log('note clickbel');
+    compute.value =
+      operation[0] +
+      operation[1] +
+      operation[2] +
+      '=' +
+      operator(Number(operation[0]), Number(operation[2]));
+    operationsDone.push(
+      operation[0] +
+        operation[1] +
+        operation[2] +
+        '=' +
+        operator(Number(operation[0]), Number(operation[2]))
+    );
   }
 });
+
+console.log(operationsDone);
+
+const operator = function (par1, par2) {
+  switch (operation[1]) {
+    case '+':
+      return par1 + par2;
+    case '-':
+      return par1 - par2;
+    case '*':
+      return par1 * par2;
+    case '/':
+      return par1 / par2;
+  }
+};

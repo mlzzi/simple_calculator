@@ -1,5 +1,5 @@
 const ac = document.querySelector('.ac');
-const displayCalcs = document.querySelector('.display');
+const displayCalcs = document.querySelector('.history');
 
 const dot = document.querySelector('.dot');
 
@@ -10,7 +10,7 @@ const compute = document.querySelector('.compute');
 const mathOperation = (document.querySelector('.compute').value = 0);
 
 let operation = [];
-const operationsDone = [];
+let operationsDone;
 
 ac.addEventListener('click', function () {
   compute.value = 0;
@@ -42,17 +42,16 @@ side.addEventListener('click', function (e) {
   if (e.target.textContent !== '=') {
     operation[1] = e.target.textContent;
     compute.value = operation[0] + operation[1];
-    operationsDone = [];
+    operationsDone = '';
   } else {
     const current = operator(Number(operation[0]), Number(operation[2]));
     compute.value = current;
-    operationsDone.push(
+    operationsDone =
       operation[0] +
-        operation[1] +
-        operation[2] +
-        '=' +
-        operator(Number(operation[0]), Number(operation[2]))
-    );
+      operation[1] +
+      operation[2] +
+      '=' +
+      operator(Number(operation[0]), Number(operation[2]));
     operation = [current, undefined, undefined];
   }
 });
@@ -60,10 +59,9 @@ side.addEventListener('click', function (e) {
 side.addEventListener('click', function (e) {
   if (e.target.textContent === '=') {
   }
-  for (let i = 0; i < operationsDone.length; i++) {
-    const html = `<p class="calc">${operationsDone[i]}</p>`;
-    displayCalcs.insertAdjacentHTML('afterbegin', html);
-  }
+
+  const html = `<p class="calc">${operationsDone}</p>`;
+  displayCalcs.insertAdjacentHTML('afterend', html);
 });
 
 const operator = function (par1, par2) {

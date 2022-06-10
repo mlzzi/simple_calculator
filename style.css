@@ -51,8 +51,9 @@ body {
   width: 100%;
 }
 
-h2,
 p {
+  float: right;
+  clear: right;
   padding: 0 10px 0 10px;
   margin: 0 0 8px 0;
 }

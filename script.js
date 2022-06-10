@@ -1,10 +1,13 @@
+'use strict';
+
 const ac = document.querySelector('.ac');
 const displayCalcs = document.querySelector('.history');
 
 const dot = document.querySelector('.dot');
 
-const numbers = document.querySelector('.numbers');
-const side = document.querySelector('.side');
+const topBar = document.getElementsByClassName('top_bar');
+const numbers = document.getElementsByClassName('digit');
+const side = document.getElementsByClassName('operator');
 
 const compute = document.querySelector('.compute');
 const mathOperation = (document.querySelector('.compute').value = 0);
@@ -17,52 +20,84 @@ ac.addEventListener('click', function () {
   operation = [];
 });
 
-numbers.addEventListener('click', function (e) {
-  if (operation[1] === undefined) {
-    if (compute.value === '0') {
-      operation[0] = e.target.textContent;
-
-      compute.value = operation[0];
-    } else if (operation[0] !== '0' && operation[1] === undefined) {
-      compute.value = operation[0] + e.target.textContent;
-      operation[0] = compute.value;
-    }
-  } else {
-    if (operation[2] === undefined) {
-      operation[2] = e.target.textContent;
-      compute.value = operation[0] + operation[1] + e.target.textContent;
+for (let i = 0; i < numbers.length; i++) {
+  numbers[i].addEventListener('click', function (e) {
+    if (operation[1] === undefined) {
+      if (compute.value === '0') {
+        operation[0] = e.target.value;
+        compute.value = operation[0];
+      } else if (operation[0] !== '0' && !operation[1]) {
+        compute.value = operation[0] + e.target.value;
+        operation[0] = compute.value;
+      }
     } else {
-      operation[2] = operation[2] + e.target.textContent;
-      compute.value = operation[0] + operation[1] + operation[2];
+      if (operation[2] === undefined) {
+        operation[2] = e.target.value;
+        compute.value =
+          operation[0] + ' ' + operation[1] + ' ' + e.target.value;
+      } else {
+        operation[2] = operation[2] + e.target.value;
+        compute.value = operation[0] + ' ' + operation[1] + ' ' + operation[2];
+      }
     }
-  }
-});
+  });
+}
 
-side.addEventListener('click', function (e) {
-  if (e.target.textContent !== '=') {
-    operation[1] = e.target.textContent;
-    compute.value = operation[0] + operation[1];
-    operationsDone = '';
-  } else {
-    const current = operator(Number(operation[0]), Number(operation[2]));
-    compute.value = current;
-    operationsDone =
-      operation[0] +
-      operation[1] +
-      operation[2] +
-      '=' +
-      operator(Number(operation[0]), Number(operation[2]));
-    operation = [current, undefined, undefined];
-  }
-});
+for (let i = 0; i < side.length; i++) {
+  side[i].addEventListener('click', function (e) {
+    if (
+      e.target.value !== '=' &&
+      e.target.value !== '*' &&
+      e.target.value !== '/'
+    ) {
+      if (!operation[0]) {
+        operation[0] = e.target.value;
+        compute.value = operation[0];
+        // } else if (!operation[0] && !operation[1]) {
+        // operation[0] = operation[0] + e.target.value;
+        // compute.value = operation[0];
+        // operation[1] = undefined;
+      } else if (operation[0] && !operation[1]) {
+        operation[1] = e.target.value;
+        compute.value = operation[0] + ' ' + operation[1];
+        operationsDone = '';
+      }
+    } else if (e.target.value === '=') {
+      // if (
+      //   operation[0] === undefined ||
+      //   operation[1] === undefined ||
+      //   operation[2] === undefined
+      // ) {
+      //   console.log('no');
+      // } else {
+      const current = operator(Number(operation[0]), Number(operation[2]));
+      compute.value = current;
+      operationsDone =
+        operation[0] +
+        ' ' +
+        operation[1] +
+        ' ' +
+        operation[2] +
+        ' ' +
+        ' ' +
+        '=' +
+        ' ' +
+        operator(Number(operation[0]), Number(operation[2]));
+      operation = [current, undefined, undefined];
 
-side.addEventListener('click', function (e) {
-  if (e.target.textContent === '=') {
-  }
+      const html = `<p class="calc">${operationsDone}</p>`;
+      displayCalcs.insertAdjacentHTML('beforeEnd', html);
+    }
+  });
+}
 
-  const html = `<p class="calc">${operationsDone}</p>`;
-  displayCalcs.insertAdjacentHTML('afterend', html);
-});
+for (let i = 0; i < topBar.length; i++) {
+  topBar[i].addEventListener('click', function (e) {
+    if (e.target.value === '+/-') {
+      compute.value *= -1;
+    }
+  });
+}
 
 const operator = function (par1, par2) {
   switch (operation[1]) {
